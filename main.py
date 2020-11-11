@@ -36,7 +36,7 @@ def center_to_corners(center, length = 224):
     return center - int(length / 2), center + int(length / 2)
 
 def label_file_in_folder(img_dir = 'original_img'):
-    img_name_list = glob.glob('original_img/*.tif')
+    img_name_list = glob.glob('original_img/**/*.tif', recursive=True)
     for img_name in img_name_list:
         img = cv2.imread(img_name)
         output_dir = '{}/segmented_img'.format(os.path.dirname(img_name))
