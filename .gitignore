@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#pycharm
+.idea/*
+
+#outputimage
+segmented_img/*.tif
+
 # C extensions
 *.so
 
