@@ -7,7 +7,7 @@ __pycache__/
 .idea/*
 
 #outputimage
-segmented_img/*.tif
+*.tif
 
 # C extensions
 *.so

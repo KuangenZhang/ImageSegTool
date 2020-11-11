@@ -39,7 +39,10 @@ def label_file_in_folder(img_dir = 'original_img'):
     img_name_list = glob.glob('original_img/*.tif')
     for img_name in img_name_list:
         img = cv2.imread(img_name)
-        label_target(img, out_img_name = os.path.basename(img_name))
+        output_dir = '{}/segmented_img'.format(os.path.dirname(img_name))
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+        label_target(img, output_dir = output_dir, out_img_name = os.path.basename(img_name))
 
 if __name__ == '__main__':
     label_file_in_folder()
