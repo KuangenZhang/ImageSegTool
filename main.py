@@ -21,7 +21,7 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
         while (1):
             cv2.imshow('image', img)
             k = cv2.waitKey(20) & 0xFF
-            if k == ord('s') or k == 27:  # 's': save and continue; Esc: save and stop
+            if k == ord('s') or k == ord('q') or k == 27:  # 's': save and continue; 'q': save and stop
                 out_img_full_name = '{}/u_{:d}_v_{:d}_{}'.format(output_dir, target_u, target_v, out_img_name)
                 upper_left, lower_right = center_to_corners(np.array([target_u, target_v]), length=length)
                 segmented_img = img_original[upper_left[1]:lower_right[1], upper_left[0]:lower_right[0]]
@@ -29,20 +29,23 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
                     cv2.imwrite(out_img_full_name, segmented_img)
                 img = np.copy(img_original) # refresh the img
                 break
-        if k == 27:  # Esc key to stop labeling the current image
+        if k == ord('q') or k == 27:  # 'q': save and stop labeling the current image
             break
+    return k
 
 def center_to_corners(center, length = 224):
     return center - int(length / 2), center + int(length / 2)
 
 def label_file_in_folder(img_dir = 'original_img'):
-    img_name_list = glob.glob('original_img/**/*.tif', recursive=True)
+    img_name_list = glob.glob('{}/**/*.tif'.format(img_dir), recursive=True)
     for img_name in img_name_list:
         img = cv2.imread(img_name)
         output_dir = '{}/segmented_img'.format(os.path.dirname(img_name))
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-        label_target(img, output_dir = output_dir, out_img_name = os.path.basename(img_name))
+        k = label_target(img, output_dir = output_dir, out_img_name = os.path.basename(img_name))
+        if k == 27:  # Esc key to stop the program
+            break
 
 if __name__ == '__main__':
     label_file_in_folder()
