@@ -14,6 +14,8 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
             # print('u: {}, v: {}'.format(target_u, target_v))
 
     global target_u, target_v
+    target_u = 0
+    target_v = 0
     cv2.namedWindow('image')
     cv2.setMouseCallback('image', draw_square)
     img_original= np.copy(img)
@@ -30,6 +32,8 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
                 img = np.copy(img_original) # refresh the img
                 break
         if k == ord('q') or k == 27:  # 'q': save and stop labeling the current image
+            target_u = 0
+            target_v = 0
             break
     return k
 
