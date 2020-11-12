@@ -23,7 +23,7 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
         while (1):
             cv2.imshow('image', img)
             k = cv2.waitKey(20) & 0xFF
-            if k == ord('s') or k == ord('q') or k == 27:  # 's': save and continue; 'q': save and stop
+            if k == ord('s'):  # 's': save and continue.
                 out_img_full_name = '{}/u_{:d}_v_{:d}_{}'.format(output_dir, target_u, target_v, out_img_name)
                 upper_left, lower_right = center_to_corners(np.array([target_u, target_v]), length=length)
                 segmented_img = img_original[upper_left[1]:lower_right[1], upper_left[0]:lower_right[0]]
@@ -31,7 +31,9 @@ def label_target(img, length = 224, output_dir ='segmented_img', out_img_name = 
                     cv2.imwrite(out_img_full_name, segmented_img)
                 img = np.copy(img_original) # refresh the img
                 break
-        if k == ord('q') or k == 27:  # 'q': save and stop labeling the current image
+            if k == ord('q') or k == 27: #'q' and esc: stop labeling the current figure
+                break
+        if k == ord('q') or k == 27:  # 'q': stop labeling the current image
             target_u = 0
             target_v = 0
             break
